@@ -1,0 +1,76 @@
+graph TB
+    subgraph "Development Environment"
+
+        Podman[Podman/Docker]
+        Python[Container Image]
+    end
+
+    
+
+    subgraph "IBM Cloud"
+        subgraph "IBM Cloud - Container Registry"
+            ICR[IBM Container Registry<br/>de.icr.io]
+        end
+        
+        subgraph "IBM Code Engine"
+            subgraph "Mosquitto Broker App"
+                MosquittoApp[Mosquitto Container<br/>Port 8083 WebSocket]
+                MosquittoConfig[ConfigMaps:<br/>- mosquitto.conf<br/>- acl.txt]
+                MosquittoSecret[Secret:<br/>- passwords.txt]
+            end
+
+            subgraph "Subscriber"
+                SubscriberJob[Subscriber Container]
+                SubscriberConfig[ConfigMap:<br/>- Environment Variables]
+                SubscriberSecret[Secret:<br/>- Credentials]
+            end
+
+            subgraph "Publisher"
+                PublisherJob[Publisher Container]
+                PublisherConfig[ConfigMap:<br/>- Environment Variables]
+                PublisherSecret[Secret:<br/>- Credentials]
+            end
+        end
+
+        subgraph "IBM Cloud - Cloudant Database"
+            Cloudant[(Cloudant NoSQL DB<br/>JSON Documents)]
+            CloudantCreds[Service Credentials:<br/>- Read-only<br/>- Write]
+        end
+    end
+
+    %% Build and Deploy Flow
+
+    Podman -->|Publish image| ICR
+    ICR -->|Deploy| MosquittoApp
+    ICR -->|Deploy| SubscriberJob
+    ICR -->|Deploy| PublisherJob
+
+    %% Configuration
+    MosquittoConfig -.->|Mount| MosquittoApp
+    MosquittoSecret -.->|Mount| MosquittoApp
+    SubscriberConfig -.->|Environment| SubscriberJob
+    SubscriberSecret -.->|Environment| SubscriberJob
+    PublisherConfig -.->|Environment| PublisherJob
+    PublisherSecret -.->|Environment| PublisherJob
+
+    %% MQTT Communication
+    PublisherJob -->|Publish Messages| MosquittoApp
+    MosquittoApp -->|Forward Messages| SubscriberJob
+
+    %% Database Operations
+    SubscriberJob -->|Store Messages| Cloudant
+    CloudantCreds -.->|Authenticate| SubscriberJob
+
+
+    %% Styling
+    classDef ibmCloud fill:#0f62fe,stroke:#0f62fe,color:#fff
+    classDef storage fill:#24a148,stroke:#24a148,color:#fff
+    classDef app fill:#8a3ffc,stroke:#8a3ffc,color:#fff
+    classDef config fill:#ff832b,stroke:#ff832b,color:#fff
+    classDef local fill:#6929c4,stroke:#6929c4,color:#fff
+
+    class ICR,MosquittoApp,SubscriberJob,PublisherJob,Python ibmCloud
+    class Cloudant storage
+    class Bruno app
+    class MosquittoConfig,MosquittoSecret,SubscriberConfig,SubscriberSecret,PublisherConfig,PublisherSecret,CloudantCreds config
+    class Dev,Podman local
