@@ -14,7 +14,7 @@ graph TB
         
         subgraph "IBM Code Engine"
             subgraph "Mosquitto Broker App"
-                MosquittoApp[Mosquitto Container<br/>Port 8083 WebSocket]
+                MosquittoApp[Mosquitto Container]
                 MosquittoConfig[ConfigMaps:<br/>- mosquitto.conf<br/>- acl.txt]
                 MosquittoSecret[Secret:<br/>- passwords.txt]
             end
