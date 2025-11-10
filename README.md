@@ -1,5 +1,9 @@
 # Overview
 
+## Link to documentation
+
+The workshop is published at [https://raptho.github.io/cyberphysische-systeme](https://raptho.github.io/cyberphysische-systeme)
+
 ## Course content
 
 This course will enable you to:
@@ -17,11 +21,7 @@ This course will enable you to:
 
 ## Sequence Diagram
 
-<picture>
-    <source srcset="./files/sequence-diagram_light.svg" media="(prefers-color-scheme: dark)">
-    <source srcset="./files/sequence-diagram_dark.svg" media="(prefers-color-scheme: light)">
-    <img src="./files/sequence-diagram_dark.svg" alt="Diagram">
-</picture>
+![Sequence-diagram](./files/sequence-diagram.svg)
 
 ## Table of Contents
 
