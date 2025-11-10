@@ -1,0 +1,13 @@
+title: Cyberphysische Systeme
+description: Workshop documentation to build a pub/sub python application via mosquitto broker and deploying it to IBM Cloud
+plugins:
+  - jekyll-remote-theme
+remote_theme: pages-themes/hacker@v0.2.0
+markdown: kramdown
+highlighter: rouge
+
+exclude:
+  - LICENSE
+  - .vscode/
+  - .venv
+  - .gitignore

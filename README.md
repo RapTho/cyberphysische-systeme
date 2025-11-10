@@ -23,7 +23,16 @@ This course will enable you to:
     <img src="./files/sequence-diagram_dark.svg" alt="Diagram">
 </picture>
 
-## Platform-specific Guides
+## Table of Contents
 
-- **Windows Users**: See the [Windows Environment Setup Guide](./8_Windows-Environment-Setup.md) for detailed instructions on environment variables and command-line differences.
-- **All Platforms**: Follow the course modules in sequence starting with [Prerequisites](./1_Pre-requisites.md).
+1. [Prerequisites](./1_Pre-requisites.md)
+2. [Building a Container Image](./2_Containerization.md)
+3. [Deploying on IBM Cloud](./3_Deploy_on_IBM-Cloud.md)
+4. [Publisher App](./4_publisher.md)
+5. [Subscriber App](./5_subscriber.md)
+6. [API Test Client (Optional)](./6_API-client.md)
+7. [Cloudant Database](./7_Cloudant.md)
+
+## Windows-specific guide
+
+See the [Windows Environment Setup Guide](./8_Windows-Environment-Setup.md) for detailed instructions on environment variables and command-line differences.
