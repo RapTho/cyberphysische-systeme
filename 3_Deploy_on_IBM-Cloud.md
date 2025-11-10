@@ -25,27 +25,25 @@ ibmcloud plugin install code-engine container-registry
 
 These variables make the rest of the commands easier to reuse. Choose a **unique** `IMAGE_NAME`
 
-```
-export RESOURCE_GROUP=iot-digital-engineering
-export CR_NAMESPACE=hslu-iot-digital-engineering
+### Unix/macOS (bash/zsh)
+
+```bash
+export RESOURCE_GROUP=cyberphysische-systeme
+export CR_NAMESPACE=hslu-cyberphysische-systeme
 export IMAGE_NAME=mosquitto-${USER}
 export IMAGE_TAG=1.0
 ```
 
-> Note: These variables are only available in the current session.
-
-### Setting environment variables on Windows (PowerShell)
-
-If you're using **Windows with PowerShell**, use the following syntax instead of `export`:
+### Windows (PowerShell)
 
 ```powershell
-$env:RESOURCE_GROUP = "iot-digital-engineering"
-$env:CR_NAMESPACE = "hslu-iot-digital-engineering"
-$env:IMAGE_NAME = "mosquitto-${USER} "
+$env:RESOURCE_GROUP = "cyberphysische-systeme"
+$env:CR_NAMESPACE = "hslu-cyberphysische-systeme"
+$env:IMAGE_NAME = "mosquitto-$env:USERNAME"
 $env:IMAGE_TAG = "1.0"
 ```
 
-You can access them the same way in subsequent commands (e.g., `$env:IMAGE_NAME`) or just use them inline like `${env:IMAGE_NAME}` if needed in PowerShell scripting.
+> **Note:** These variables are only available in the current session. For more details on managing environment variables on Windows, see the [Windows Environment Setup Guide](./8_Windows-Environment-Setup.md).
 
 ## Select IBM Cloud context
 
@@ -82,11 +80,11 @@ Add namespace (skip if it already exists):
 ibmcloud cr namespace-add ${CR_NAMESPACE}
 ```
 
-A **manifest** groups multiple platform-specific container images under one tag, allowing cross-architecture support (e.g., `amd64`, `arm64`). We re-tag the image with the IBM Container Registry URL so it can be correctly identified and pushed to the registry.
+We re-tag the image with the IBM Container Registry URL so it can be correctly identified and pushed to the registry.
 
 ```
 podman tag ${IMAGE_NAME}:${IMAGE_TAG} de.icr.io/${CR_NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}
-podman manifest push --all de.icr.io/${CR_NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}
+podman push de.icr.io/${CR_NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}
 ```
 
 (Optional) Set image retention policy to keep only the last 2 versions:
@@ -107,8 +105,16 @@ ibmcloud iam api-key-create mosquitto-deploy-key-${USER} -d "API Key to deploy m
 
 Copy and export the API key:
 
-```
+**Unix/macOS:**
+
+```bash
 export API_KEY="myGeneratedAPIKey"
+```
+
+**Windows (PowerShell):**
+
+```powershell
+$env:API_KEY = "myGeneratedAPIKey"
 ```
 
 Create a registry access secret for Code Engine:
@@ -116,11 +122,6 @@ Create a registry access secret for Code Engine:
 ```
 ibmcloud ce registry create --name ibm-container-registry-${USER} --server de.icr.io --username iamapikey --password ${API_KEY}
 ```
-
-## Authenticate `kubectl` for Code Engine
-
-Follow IBM's guide to enable Kubernetes CLI access to Code Engine: <br />
-[https://cloud.ibm.com/docs/codeengine?topic=codeengine-kubernetes](https://cloud.ibm.com/docs/codeengine?topic=codeengine-kubernetes)
 
 ## Upload mosquitto configuration files
 
@@ -150,9 +151,9 @@ ibmcloud ce app create --name mosquitto-${USER} \
   --memory 0.5G
 ```
 
-### Running on Windows (PowerShell)
+### Windows (PowerShell)
 
-In PowerShell, line continuations use backticks (\`) instead of backslashes. Here's the equivalent command:
+In PowerShell, line continuations use backticks (\`) instead of backslashes:
 
 ```powershell
 ibmcloud ce app create --name mosquitto-$env:USERNAME `
@@ -168,36 +169,6 @@ ibmcloud ce app create --name mosquitto-$env:USERNAME `
   --memory 0.5G
 ```
 
+> **Note:** For more Windows-specific command patterns, see the [Windows Environment Setup Guide](./8_Windows-Environment-Setup.md).
+
 This will start your mosquitto MQTT broker on IBM Code Engine with your custom configuration, ACLs, and password protection.
-
-## Troubleshooting
-
-### Connect to IBM Code Engine's Kubernetes-API
-
-To use `kubectl` with IBM Code Engine, you can set the context as documented [here](https://cloud.ibm.com/docs/codeengine?topic=codeengine-kubernetes)
-
-```bash
-ibmcloud ce project select -n iot-digital-engineering --kubecfg
-```
-
-Now you can do everything you're authorized to :)
-
-### Get pods
-
-```bash
-kubectl get pods
-```
-
-### Check logs of a specific pod
-
-Replace `myPodName` with the name of your pod. You can also use the `-f` option to subscribe to incoming logs
-
-```bash
-kubectl logs pod/myPodName
-```
-
-If a pod contains more than one container, as it is the case when deploying apps on IBM Code Engine, you can select the container you're interested in using the `-c` option. By default IBM Code Engine calls the user's container `user-container`
-
-```bash
-kubectl logs -f pod/myPodName -c user-container
-```

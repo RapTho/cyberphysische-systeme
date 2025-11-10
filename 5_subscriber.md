@@ -120,21 +120,48 @@ Instead of an `app` we'll deploy a `job` in the `daemon` mode. This job will run
 
 First, you need to create your subscriber specific `configMap` and `secret`
 
-```
+**Unix/macOS:**
+
+```bash
 ibmcloud ce configmap create --name subscriber-conf-${USER} --from-literal key1=value1 --from-literal key2=value2
 ibmcloud ce secret create --name subscriber-secret-${USER} --from-literal key1=value1 --from-literal key2=value2
 ```
 
+**Windows (PowerShell):**
+
+```powershell
+ibmcloud ce configmap create --name subscriber-conf-$env:USERNAME --from-literal key1=value1 --from-literal key2=value2
+ibmcloud ce secret create --name subscriber-secret-$env:USERNAME --from-literal key1=value1 --from-literal key2=value2
+```
+
 Then create the `job` in `daemon` mode
 
-```
+**Unix/macOS:**
+
+```bash
 ibmcloud ce job create --mode daemon --name subscriber-${USER} --image de.icr.io/${CR_NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG} --registry-secret ibm-container-registry-${USER} --env-from-configmap subscriber-conf-${USER} --env-from-secret subscriber-secret-${USER} --cpu 0.25 --memory 0.5G
+```
+
+**Windows (PowerShell):**
+
+```powershell
+ibmcloud ce job create --mode daemon --name subscriber-$env:USERNAME --image de.icr.io/${env:CR_NAMESPACE}/${env:IMAGE_NAME}:${env:IMAGE_TAG} --registry-secret ibm-container-registry-$env:USERNAME --env-from-configmap subscriber-conf-$env:USERNAME --env-from-secret subscriber-secret-$env:USERNAME --cpu 0.25 --memory 0.5G
 ```
 
 Finally, start the job
 
-```
+**Unix/macOS:**
+
+```bash
 ibmcloud ce jobrun submit --name subscriber-run-${USER} --job subscriber-${USER}
 ```
+
+**Windows (PowerShell):**
+
+```powershell
+ibmcloud ce jobrun submit --name subscriber-run-$env:USERNAME --job subscriber-$env:USERNAME
+```
+
+> **Note:** For more details on Windows environment variables and command patterns, see the [Windows Environment Setup Guide](./8_Windows-Environment-Setup.md).
 
 More documentation can be found [here](https://cloud.ibm.com/docs/codeengine?topic=codeengine-job-daemon)

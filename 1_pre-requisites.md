@@ -2,6 +2,8 @@
 
 Before starting the course, please ensure you have the following tools installed on your machine. This guide provides installation instructions for **both macOS and Windows** platforms.
 
+> **Windows Users:** For detailed information on environment variables and command-line differences, see the [Windows Environment Setup Guide](./8_Windows-Environment-Setup.md).
+
 ## 1. Podman or Docker
 
 You only need **one** of these container runtimes. Container runtimes allow you to build, run and publish container images locally.
@@ -30,21 +32,7 @@ Download Docker Desktop from: [https://www.docker.com/products/docker-desktop](h
 
 > **Note:** Docker Desktop requires a free Docker account.
 
-## 2. `kubectl` (Kubernetes CLI)
-
-To interact with the Kuberentes API, you'll need kubectl.
-
-### macOS
-
-```
-brew install kubectl
-```
-
-### Windows
-
-Download manually from: [https://kubernetes.io/docs/tasks/tools/](https://kubernetes.io/docs/tasks/tools/)
-
-## 3. IBM Cloud CLI
+## 2. IBM Cloud CLI
 
 Download and install from: [https://github.com/IBM-Cloud/ibm-cloud-cli-release/releases/](https://github.com/IBM-Cloud/ibm-cloud-cli-release/releases/)
 
@@ -57,7 +45,7 @@ ibmcloud version
 Optionally, you can also enable the autocompletion:<br />
 [https://cloud.ibm.com/docs/cli?topic=cli-shell-autocomplete](https://cloud.ibm.com/docs/cli?topic=cli-shell-autocomplete)
 
-## 4. OPTIONAL: Bruno (API test client)
+## 3. OPTIONAL: Bruno (API test client)
 
 Bruno is a lightweight API client, ideal for working with REST APIs. In later chapters you'll interact with the IBM Cloudant Database APIs. Bruno will come in handy to test the APIs before implementing them in your code.
 
@@ -66,7 +54,7 @@ Download the latest release for your OS :
 
 Install the version appropriate for your system.
 
-## 5. Python (version 3.8 or higher)
+## 4. Python (version 3.8 or higher)
 
 ### macOS
 
@@ -80,7 +68,7 @@ Download and install from: [https://www.python.org/downloads/windows/](https://w
 
 > **Note:** During installation, make sure to select **"Add Python to PATH"**.
 
-## 6. Installing `mosquitto_passwd`
+## 5. Installing `mosquitto_passwd`
 
 The `mosquitto_passwd` utility is used to generate password files for authenticating MQTT clients.
 
@@ -113,7 +101,7 @@ You can now use `mosquitto_passwd` from the Command Prompt:
 mosquitto_passwd -h
 ```
 
-## 7. Code editor (VS Code or any other)
+## 6. Code editor (VS Code or any other)
 
 Recommended is using [Visual Studio Code](https://code.visualstudio.com/) for this course but any other editor will also do the job.
 

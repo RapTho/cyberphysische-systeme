@@ -1,6 +1,6 @@
 # Building a container image
 
-In this section, we’ll walk through how to create a custom container image for a local mosquitto broker using Podman. This includes setting up authentication and access control via `passwords.txt`, `acl.txt`, and `mosquitto.conf`, and building a cross-platform container image. Wherever you see `podman` instructions, you can also use `docker` instead.
+In this section, we'll walk through how to create a custom container image for a local mosquitto broker using Podman. This includes setting up authentication and access control via `passwords.txt`, `acl.txt`, and `mosquitto.conf`, and building a container image. Wherever you see `podman` instructions, you can also use `docker` instead.
 
 ## What is a Containerfile?
 
@@ -84,16 +84,14 @@ mosquitto
 
 ### Step 2: Build the container image
 
-A **manifest** groups multiple platform-specific container images under one tag, allowing cross-architecture support (e.g., `amd64`, `arm64`).
-Use the following command to build your manifest:
+Use the following command to build your container image:
 
 ```
-podman build --jobs 2 --platform linux/amd64,linux/arm64 --manifest mosquitto-${USER}:1.0 --layers=false /path/to/Containerfile
+podman build --platform linux/amd64 -t mosquitto-${USER}:1.0 --layers=false /path/to/Containerfile
 ```
 
-- `--jobs 2` runs 2 stages in parallel
-- `--platform linux/amd64,linux/arm64` ensures the image runs on both standard x86 and ARM-based systems. This is important because **newer MacBooks use Apple Silicon (ARM64)**
-- `--manifest` creates the manifest
+- `--platform linux/amd64` specifies the target architecture as x86-64
+- `-t` tags the image with a name and version
 - `--layers=false` avoids caching intermediate images during the build process
 
 Replace `/path/to/Containerfile` with the actual path to your `mosquitto` folder.
@@ -125,9 +123,11 @@ podman run -d `
   -p 1883:1883 `
   -p 8083:8083 `
   --name mosquitto `
-  mosquitto-${USER}:1.0
+  mosquitto-$env:USERNAME:1.0
 ```
 
 > `${PWD}` is PowerShell's way to get the current directory path.
+>
+> **Note:** For more details on Windows-specific commands and environment variables, see the [Windows Environment Setup Guide](./8_Windows-Environment-Setup.md).
 
 With this setup, you’ll have a fully functional, portable mosquitto broker container, secured and ready for use in development environments.
