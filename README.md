@@ -25,7 +25,7 @@ This course will enable you to:
 
 ## Table of Contents
 
-1. [Prerequisites](./1_Pre-requisites.md)
+1. [Prerequisites](./1_Prerequisites.md)
 2. [Building a Container Image](./2_Containerization.md)
 3. [Deploying on IBM Cloud](./3_Deploy_on_IBM-Cloud.md)
 4. [Publisher App](./4_publisher.md)
