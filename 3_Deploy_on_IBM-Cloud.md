@@ -30,6 +30,7 @@ These variables make the rest of the commands easier to reuse. Choose a **unique
 ```bash
 export RESOURCE_GROUP=cyberphysische-systeme
 export CR_NAMESPACE=hslu-cyberphysische-systeme
+export CE_PROJECT_NAME=hslu-cyberphysische-systeme
 export IMAGE_NAME=mosquitto-${USER}
 export IMAGE_TAG=1.0
 ```
@@ -39,6 +40,7 @@ export IMAGE_TAG=1.0
 ```powershell
 $env:RESOURCE_GROUP = "cyberphysische-systeme"
 $env:CR_NAMESPACE = "hslu-cyberphysische-systeme"
+$env:CE_PROJECT_NAME = "hslu-cyberphysische-systeme"
 $env:IMAGE_NAME = "mosquitto-$env:USERNAME"
 $env:IMAGE_TAG = "1.0"
 ```
@@ -51,18 +53,6 @@ Select the correct resource group:
 
 ```
 ibmcloud target -g ${RESOURCE_GROUP}
-```
-
-Select your Code Engine project:
-
-```
-ibmcloud ce project select --name myProjectName
-```
-
-`OPTIONAL`: You can create a new project using
-
-```
-ibmcloud ce project create --name myProjectName
 ```
 
 ## Publish image to IBM Container Registry
@@ -91,6 +81,18 @@ podman push de.icr.io/${CR_NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}
 
 ```
 ibmcloud cr retention-policy-set --images 2 ${CR_NAMESPACE}
+```
+
+## Select Code Engine project
+
+```
+ibmcloud ce project select --name $CE_PROJECT_NAME
+```
+
+`OPTIONAL`: If the project doesn't exist, you can create a new project using
+
+```
+ibmcloud ce project create --name $CE_PROJECT_NAME
 ```
 
 ## Create API key and registry access for Code Engine
