@@ -21,7 +21,7 @@ First, prepare your folder structure. It should look like this:
 mosquitto
 ├── Containerfile
 ├── acl.txt
-├── generatePasswordFile.py
+├── generatePasswords.py
 ├── mosquitto.conf
 ```
 
@@ -63,12 +63,12 @@ The [mosquitto.conf](./files/mosquitto.conf) configures how the broker works. Mo
 ### Step 1: Configure access and credentials
 
 - Edit [acl.txt](./files/acl.txt) to define topic access controls.
-- Use [generatePasswordFile.py](./files/generatePasswords.py) to generate a `passwords.txt` file for authentication. Feel free to modify the users_and_passwords object to your liking.
+- Use [generatePasswords.py](./files/generatePasswords.py) to generate a `passwords.txt` file for authentication. Feel free to modify the users_and_passwords object to your liking.
 
 Run the script:
 
 ```
-python generatePasswordFile.py
+python generatePasswords.py
 ```
 
 After running the script, your folder structure should include `passwords.txt`:
@@ -77,7 +77,7 @@ After running the script, your folder structure should include `passwords.txt`:
 mosquitto
 ├── Containerfile
 ├── acl.txt
-├── generatePasswordFile.py
+├── generatePasswords.py
 ├── mosquitto.conf
 ├── passwords.txt
 ```
