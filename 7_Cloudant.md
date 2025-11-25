@@ -24,6 +24,13 @@ These credentials can be used to read data from the database.
 
 These credentials can be used to write data to the database.
 
+#### Token exchange
+
+The service credentials provide an `apikey` that has to be exchanged to a `Bearer token`. The docs show you how to do that: <br />
+
+- [API Key to Bearer token exchange](https://cloud.ibm.com/docs/account?topic=account-iamtoken_from_apikey#iamtoken-from-apikey-api)
+- [Bearer token authentication](https://cloud.ibm.com/apidocs/cloudant#security-scheme-IAM)
+
 ## API Endpoints
 
 The following API endpoints will be used:
