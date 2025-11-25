@@ -101,7 +101,8 @@ Replace `/path/to/Containerfile` with the actual path to your `mosquitto` folder
 To test your image locally, run:
 
 ```
-podman run -d -v ./:/home/mosquitto/passwords:ro \
+podman run -d --platform linux/amd64 \
+              -v ./:/home/mosquitto/passwords:ro \
               -v ./:/home/mosquitto/acl:ro \
               -v ./:/home/mosquitto/config:ro \
               -p 1883:1883 -p 8083:8083 --name mosquitto mosquitto-${USER}:1.0
@@ -116,7 +117,7 @@ podman run -d -v ./:/home/mosquitto/passwords:ro \
 Use backticks (\`) for line continuation and double quotes for paths:
 
 ```powershell
-podman run -d `
+podman run -d ` --platform linux/amd64
   -v "${PWD}:/home/mosquitto/passwords:ro" `
   -v "${PWD}:/home/mosquitto/acl:ro" `
   -v "${PWD}:/home/mosquitto/config:ro" `
