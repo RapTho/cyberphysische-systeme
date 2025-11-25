@@ -35,13 +35,9 @@ The Cloudant database API provides a RESTful interface for interacting with the 
 To create a new document, send a POST request to https://<cloudant-account>.cloudant.com/<database-name>.
 To retrieve a document, send a GET request to https://<cloudant-account>.cloudant.com/<database-name>/<document-id>.
 
-### Basic Authentication
+### Authentication
 
-To authenticate with the Cloudant database, use basic authentication. You can pass the username and password in the Authorization header of the HTTP request.
-
-`Authorization: Basic <base64-encoded-username-and-password>`
-
-Libraries like `requests` have ways of doing the base64 encoding for you.
+To authenticate with the Cloudant database, you need to exchange an API Key to a Bearer token. Check out [this chapter](7_Cloudant.md#token-exchange) for more information.
 
 ### Example Code
 
