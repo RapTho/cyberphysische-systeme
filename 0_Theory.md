@@ -14,7 +14,7 @@ Containers are lightweight, standalone, executable software packages that includ
 
 ### Containers vs. Virtual Machines
 
-![Containers vs VMs](./files/images/containers-vs-virtual-machines.jpg)
+![Containers vs VMs](https://s7280.pcdn.co/wp-content/uploads/2018/07/containers-vs-virtual-machines.jpg)
 [Source](https://s7280.pcdn.co/wp-content/uploads/2018/07/containers-vs-virtual-machines.jpg)
 
 | Aspect           | Virtual Machines (VMs)                      | Containers                              |
