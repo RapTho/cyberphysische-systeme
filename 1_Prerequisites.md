@@ -117,7 +117,6 @@ After installation, you should be able to run the following commands in your ter
 
 ```
 podman --version       # or docker --version
-kubectl version --client
 ibmcloud version
 python --version
 ```
