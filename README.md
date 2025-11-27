@@ -25,6 +25,7 @@ This course will enable you to:
 
 ## Table of Contents
 
+0. [Fundamentals](./0_Theory.md)
 1. [Prerequisites](./1_Prerequisites.md)
 2. [Building a Container Image](./2_Containerization.md)
 3. [Deploying on IBM Cloud](./3_Deploy_on_IBM-Cloud.md)
