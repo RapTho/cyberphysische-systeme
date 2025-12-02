@@ -29,10 +29,14 @@ Your task is to develop a Python publisher app that:
 
 ## Schema validation
 
-The schema validation is used to ensure that the JSON messages published to the mosquitto broker conform to a specific format. You can use the `jsonschema` library to validate the JSON messages.
+Schema validation ensures that the data structure and format of messages are consistent across all publishers and subscribers in the system. This validation is performed at the **application level** (in your Python code), not by the MQTT protocol or the broker itself. By implementing schema validation, publishers and subscribers can comply with a mutually agreed message format, preventing data inconsistencies and communication errors between different components of the system.
 
-Define a schema using the jsonschema library.
-Use the validate function to validate the JSON messages against the schema.
+When multiple applications exchange messages through MQTT, they need to agree on a common message structure. Schema validation helps enforce this agreement by checking that each message contains the required fields with the correct data types before it is published or after it is received. This is particularly important when working with JSON payloads, as JSON is flexible and doesn't enforce structure on its own.
+
+You can use the `jsonschema` library to validate the JSON messages:
+
+- Define a schema using the jsonschema library
+- Use the validate function to validate the JSON messages against the schema
 
 ## Example Code
 
@@ -95,6 +99,14 @@ else:
 
 ## Environment variables
 
+Environment variables are key-value pairs stored outside your code that configure application behavior. They allow you to change settings (like URLs, credentials, or feature flags) without modifying the code itself.
+
+**Benefits:**
+
+- **Security**: Keep sensitive data (passwords, API keys) out of your codebase
+- **Flexibility**: Change configuration across environments (development, production) without code changes
+- **Portability**: Same code works in different environments with different configurations
+
 Load environment variables from a .env file using the python-dotenv library. For example:
 
 ```python
@@ -106,3 +118,5 @@ BROKER_URL = os.getenv("BROKER_URL")
 USERNAME = os.getenv("USERNAME")
 PASSWORD = os.getenv("PASSWORD")
 ```
+
+**Note:** When running in a container, environment variables must be explicitly passed to the container, for example using [podman run --env-file .env](https://docs.podman.io/en/latest/markdown/podman-run.1.html#env-file-file) or by setting individual variables with `--env KEY=value`.

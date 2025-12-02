@@ -58,7 +58,7 @@ CMD ["/usr/sbin/mosquitto", "-c", "/home/mosquitto/config/mosquitto.conf"]
 - `EXPOSE`: Declares which ports are used (1883 for MQTT, 8083 for WebSocket).
 - `CMD`: Specifies the command that runs when the container starts, pointing to your custom configuration file.
 
-The [mosquitto.conf](./files/mosquitto.conf) configures how the broker works. More mosquitto configuration details be found [here](https://mosquitto.org/man/mosquitto-conf-5.html)
+To simplify first-time use, mosquitto allows unauthenticated access by default, unless other configuration is set. The [mosquitto.conf](./files/mosquitto.conf) configures how the broker works, disabling anonymous access, enabling authentication via password and ACL files, and setting up two network listeners (port 1883 for standard MQTT and port 8083 for WebSocket connections). More mosquitto configuration details be found [here](https://mosquitto.org/man/mosquitto-conf-5.html)
 
 ### Step 1: Configure access and credentials
 
@@ -86,13 +86,21 @@ mosquitto
 
 Use the following command to build your container image:
 
+**Using Podman:**
+
 ```
-podman build --platform linux/amd64 -t mosquitto-${USER}:1.0 --layers=false /path/to/Containerfile
+podman build --platform linux/amd64 -t mosquitto-${USER}:1.0 /path/to/Containerfile
 ```
 
-- `--platform linux/amd64` specifies the target architecture as x86-64
+**Using Docker (with buildx support):**
+
+```
+docker buildx build --platform linux/amd64 -t mosquitto-${USER}:1.0 /path/to/Containerfile --load
+```
+
+- `--platform linux/amd64` emulates the container image's target platform and architecture as linux / x86-64. If you're building on a device with a different architecture (e.g., Apple Silicon with ARM processors), this flag ensures the build process emulates the correct target architecture for deployment on IBM Code Engine.
 - `-t` tags the image with a name and version
-- `--layers=false` avoids caching intermediate images during the build process
+- `--load` (Docker buildx only) loads the built image into the local Docker daemon
 
 Replace `/path/to/Containerfile` with the actual path to your `mosquitto` folder.
 
@@ -110,7 +118,7 @@ podman run -d --platform linux/amd64 \
 
 - `-d` starts the container in the background. Use `podman ps` to display running containers. Add the `-a` option to also display stopped and crashed containers.
 - The above command mounts the current directory into the container so it can read `passwords.txt`, `acl.txt`, and `mosquitto.conf`.
-- The `-p 1883:1883` and `-p 8083:8083` flag mapps host ports to the container ports where `<hostPort>:<containerPort>`.
+- The `-p 1883:1883` and `-p 8083:8083` flag mapps host ports to the container ports where `<hostPort>:<containerPort>`. The host port must be free. You cannot map multiple containers to the same host port.
 
 ### Running on Windows (PowerShell)
 

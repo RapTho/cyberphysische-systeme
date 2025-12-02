@@ -51,7 +51,7 @@ Container registries are repositories for storing and distributing container ima
 
 ### Why we need container registries
 
-1. **Distribution**: Share container images between environments and teams
+1. **Distribution**: Share container images between environments, teams and cloud services
 2. **Version Control**: Store different versions of your container images
 3. **Security**: Scan images for vulnerabilities
 4. **Automation**: Enable CI/CD pipelines to push and pull images
@@ -94,4 +94,34 @@ Throughout this course, you'll follow this typical container workflow:
 
 This workflow enables continuous delivery of your applications with consistency across environments.
 
-Now that you understand the fundamentals, let's move on to setting up the [prerequisites](./1_Pre-requisites.md) for this course.
+## HTTP Requests Basics
+
+### HTTP Methods (Verbs)
+
+- **GET**: Retrieve data
+- **POST**: Create new resource
+- **PUT**: Update resource
+- **DELETE**: Remove resource
+
+### API Structure
+
+- **Server URL**: Base address (e.g., `https://api.chucknorris.io`)
+- **Endpoint**: Specific path (e.g., `/jokes/random`)
+- **Complete URL**: `https://api.chucknorris.io/jokes/random`
+
+### Authentication
+
+- **API Key**: Simple string, often in headers (`X-API-Key: your_key`)
+- **Bearer Token**: More secure, in Authorization header (`Authorization: Bearer <token>`)
+
+### Example: Chuck Norris API
+
+```bash
+# Get a random joke
+curl https://api.chucknorris.io/jokes/random
+
+# Get joke from category
+curl https://api.chucknorris.io/jokes/random?category=dev
+```
+
+Now that you understand the fundamentals, let's move on to setting up the [prerequisites](./1_Pre-requisites.md) for this course

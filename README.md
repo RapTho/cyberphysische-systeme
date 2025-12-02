@@ -31,7 +31,7 @@ This course will enable you to:
 3. [Deploying on IBM Cloud](./3_Deploy_on_IBM-Cloud.md)
 4. [Publisher App](./4_publisher.md)
 5. [Subscriber App](./5_subscriber.md)
-6. [API Test Client (Optional)](./6_API-client.md)
+6. [API Test Client](./6_API-client.md)
 7. [Cloudant Database](./7_Cloudant.md)
 
 ## Windows-specific guide

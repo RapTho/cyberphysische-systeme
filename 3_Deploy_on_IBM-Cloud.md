@@ -70,7 +70,18 @@ Add namespace (skip if it already exists):
 ibmcloud cr namespace-add ${CR_NAMESPACE}
 ```
 
-We re-tag the image with the IBM Container Registry URL so it can be correctly identified and pushed to the registry.
+We need to re-tag the image with the IBM Container Registry URL so it can be correctly identified and pushed to the registry. A container image's naming convention follows the structure:<br />
+`<registry>[:<port>]/[<namespace>/]<name>:<tag>`
+
+For example, the `de.icr.io/hslu-cyberphysische-systeme/mosquitto-raphael:1.0` container image is identified by:
+
+- Registry server (de.icr.io)
+- Namespace (hslu-cyberphysische-systeme)
+- Image name (mosquitto-raphael)
+- Image tag (1.0)<br />
+  [Source](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/building_running_and_managing_containers/working-with-container-registries#container-registries)
+
+The [podman tag](https://docs.podman.io/en/latest/markdown/podman-tag.1.html) command help you achieve that.
 
 ```
 podman tag ${IMAGE_NAME}:${IMAGE_TAG} de.icr.io/${CR_NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}
