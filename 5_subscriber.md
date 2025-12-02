@@ -126,8 +126,8 @@ ibmcloud ce secret create --name subscriber-secret-${USER} --from-literal key1=v
 **Windows (PowerShell):**
 
 ```powershell
-ibmcloud ce configmap create --name subscriber-conf-$env:USERNAME --from-literal key1=value1 --from-literal key2=value2
-ibmcloud ce secret create --name subscriber-secret-$env:USERNAME --from-literal key1=value1 --from-literal key2=value2
+ibmcloud ce configmap create --name subscriber-conf-${env:USERNAME} --from-literal key1=value1 --from-literal key2=value2
+ibmcloud ce secret create --name subscriber-secret-${env:USERNAME} --from-literal key1=value1 --from-literal key2=value2
 ```
 
 Then create the `job` in `daemon` mode
@@ -141,7 +141,7 @@ ibmcloud ce job create --mode daemon --name subscriber-${USER} --image de.icr.io
 **Windows (PowerShell):**
 
 ```powershell
-ibmcloud ce job create --mode daemon --name subscriber-$env:USERNAME --image de.icr.io/${env:CR_NAMESPACE}/${env:IMAGE_NAME}:${env:IMAGE_TAG} --registry-secret ibm-container-registry-$env:USERNAME --env-from-configmap subscriber-conf-$env:USERNAME --env-from-secret subscriber-secret-$env:USERNAME --cpu 0.25 --memory 0.5G
+ibmcloud ce job create --mode daemon --name subscriber-${env:USERNAME} --image de.icr.io/${env:CR_NAMESPACE}/${env:IMAGE_NAME}:${env:IMAGE_TAG} --registry-secret ibm-container-registry-${env:USERNAME} --env-from-configmap subscriber-conf-${env:USERNAME} --env-from-secret subscriber-secret-${env:USERNAME} --cpu 0.25 --memory 0.5G
 ```
 
 Finally, start the job
@@ -155,7 +155,7 @@ ibmcloud ce jobrun submit --name subscriber-run-${USER} --job subscriber-${USER}
 **Windows (PowerShell):**
 
 ```powershell
-ibmcloud ce jobrun submit --name subscriber-run-$env:USERNAME --job subscriber-$env:USERNAME
+ibmcloud ce jobrun submit --name subscriber-run-${env:USERNAME} --job subscriber-${env:USERNAME}
 ```
 
 > **Note:** For more details on Windows environment variables and command patterns, see the [Windows Environment Setup Guide](./8_Windows-Environment-Setup.md).

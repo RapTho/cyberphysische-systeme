@@ -66,8 +66,8 @@ ibmcloud ce app create --name mosquitto-${USER} \
 Uses backtick `` ` `` for line continuation:
 
 ```powershell
-ibmcloud ce app create --name mosquitto-$env:USERNAME `
-  --image de.icr.io/$env:CR_NAMESPACE/$env:IMAGE_NAME:$env:IMAGE_TAG `
+ibmcloud ce app create --name mosquitto-${env:USERNAME} `
+  --image de.icr.io/${env:CR_NAMESPACE}/${env:IMAGE_NAME}:${env:IMAGE_TAG} `
   --port 8083
 ```
 
@@ -89,7 +89,7 @@ export IMAGE_TAG=1.0
 ```powershell
 $env:RESOURCE_GROUP = "cyberphysische-systeme"
 $env:CR_NAMESPACE = "hslu-cyberphysische-systeme"
-$env:IMAGE_NAME = "mosquitto-$env:USERNAME"
+$env:IMAGE_NAME = "mosquitto-${env:USERNAME}"
 $env:IMAGE_TAG = "1.0"
 ```
 
@@ -105,7 +105,7 @@ podman tag ${IMAGE_NAME}:${IMAGE_TAG} de.icr.io/${CR_NAMESPACE}/${IMAGE_NAME}:${
 **Windows (PowerShell):**
 
 ```powershell
-ibmcloud target -g $env:RESOURCE_GROUP
+ibmcloud target -g ${env:RESOURCE_GROUP}
 podman tag ${env:IMAGE_NAME}:${env:IMAGE_TAG} de.icr.io/${env:CR_NAMESPACE}/${env:IMAGE_NAME}:${env:IMAGE_TAG}
 ```
 

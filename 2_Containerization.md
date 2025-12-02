@@ -132,7 +132,7 @@ podman run -d ` --platform linux/amd64
   -p 1883:1883 `
   -p 8083:8083 `
   --name mosquitto `
-  mosquitto-$env:USERNAME:1.0
+  mosquitto-${env:USERNAME}:1.0
 ```
 
 > `${PWD}` is PowerShell's way to get the current directory path.

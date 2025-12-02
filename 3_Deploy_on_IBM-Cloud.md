@@ -41,7 +41,7 @@ export IMAGE_TAG=1.0
 $env:RESOURCE_GROUP = "cyberphysische-systeme"
 $env:CR_NAMESPACE = "hslu-cyberphysische-systeme"
 $env:CE_PROJECT_NAME = "hslu-cyberphysische-systeme"
-$env:IMAGE_NAME = "mosquitto-$env:USERNAME"
+$env:IMAGE_NAME = "mosquitto-${env:USERNAME}"
 $env:IMAGE_TAG = "1.0"
 ```
 
@@ -169,12 +169,12 @@ ibmcloud ce app create --name mosquitto-${USER} \
 In PowerShell, line continuations use backticks (\`) instead of backslashes:
 
 ```powershell
-ibmcloud ce app create --name mosquitto-$env:USERNAME `
-  --image de.icr.io/$env:CR_NAMESPACE/$env:IMAGE_NAME:$env:IMAGE_TAG `
-  --registry-secret ibm-container-registry-$env:USERNAME `
-  --mount-secret /home/mosquitto/passwords=passwords-$env:USERNAME `
-  --mount-configmap /home/mosquitto/config=conf-$env:USERNAME `
-  --mount-configmap /home/mosquitto/acl=acl-$env:USERNAME `
+ibmcloud ce app create --name mosquitto-${env:USERNAME} `
+  --image de.icr.io/${env:CR_NAMESPACE}/${env:IMAGE_NAME}:${env:IMAGE_TAG} `
+  --registry-secret ibm-container-registry-${env:USERNAME} `
+  --mount-secret /home/mosquitto/passwords=passwords-${env:USERNAME} `
+  --mount-configmap /home/mosquitto/config=conf-${env:USERNAME} `
+  --mount-configmap /home/mosquitto/acl=acl-${env:USERNAME} `
   --port 8083 `
   --min-scale 1 `
   --max-scale 1 `
