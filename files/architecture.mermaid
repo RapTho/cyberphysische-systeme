@@ -1,8 +1,12 @@
 graph TB
-    subgraph "Development Environment"
-
+    subgraph "Local Device / Development Environment"
         Podman[Podman/Docker]
         Python[Container Image]
+        
+        subgraph "Publisher (Local)"
+            PublisherLocal[Publisher Container]
+            PublisherConfig[Configuration:<br/> env_vars ]
+        end
     end
 
     
@@ -16,45 +20,38 @@ graph TB
             subgraph "Mosquitto Broker App"
                 MosquittoApp[Mosquitto Container]
                 MosquittoConfig[ConfigMaps:<br/>- mosquitto.conf<br/>- acl.txt]
-                MosquittoSecret[Secret:<br/>- passwords.txt]
+                MosquittoSecret[Secret:<br/>passwords.txt]
             end
 
             subgraph "Subscriber"
                 SubscriberJob[Subscriber Container]
-                SubscriberConfig[ConfigMap:<br/>- Environment Variables]
-                SubscriberSecret[Secret:<br/>- Credentials]
-            end
-
-            subgraph "Publisher"
-                PublisherJob[Publisher Container]
-                PublisherConfig[ConfigMap:<br/>- Environment Variables]
-                PublisherSecret[Secret:<br/>- Credentials]
+                SubscriberConfig[ConfigMap:<br/>env_vars]
+                SubscriberSecret[Secret:<br/>env_vars]
             end
         end
 
         subgraph "IBM Cloud - Cloudant Database"
             Cloudant[(Cloudant NoSQL DB<br/>JSON Documents)]
-            CloudantCreds[Service Credentials:<br/>- Read-only<br/>- Write]
+            CloudantCreds[Service Credentials]
         end
     end
 
     %% Build and Deploy Flow
-
+    Podman -->|Build| Python
+    Python -->|Run locally| PublisherLocal
     Podman -->|Publish image| ICR
     ICR -->|Deploy| MosquittoApp
     ICR -->|Deploy| SubscriberJob
-    ICR -->|Deploy| PublisherJob
 
     %% Configuration
     MosquittoConfig -.->|Mount| MosquittoApp
     MosquittoSecret -.->|Mount| MosquittoApp
     SubscriberConfig -.->|Environment| SubscriberJob
     SubscriberSecret -.->|Environment| SubscriberJob
-    PublisherConfig -.->|Environment| PublisherJob
-    PublisherSecret -.->|Environment| PublisherJob
+    PublisherConfig -.->|Configure| PublisherLocal
 
     %% MQTT Communication
-    PublisherJob -->|Publish Messages| MosquittoApp
+    PublisherLocal -->|Publish Messages<br/>via Internet| MosquittoApp
     MosquittoApp -->|Forward Messages| SubscriberJob
 
     %% Database Operations
@@ -69,8 +66,8 @@ graph TB
     classDef config fill:#ff832b,stroke:#ff832b,color:#fff
     classDef local fill:#6929c4,stroke:#6929c4,color:#fff
 
-    class ICR,MosquittoApp,SubscriberJob,PublisherJob,Python ibmCloud
+    class ICR,MosquittoApp,SubscriberJob,PublisherLocal,Python ibmCloud
     class Cloudant storage
     class Bruno app
-    class MosquittoConfig,MosquittoSecret,SubscriberConfig,SubscriberSecret,PublisherConfig,PublisherSecret,CloudantCreds config
-    class Dev,Podman local
+    class MosquittoConfig,MosquittoSecret,SubscriberConfig,SubscriberSecret,PublisherConfig,CloudantCreds config
+    class Podman local
