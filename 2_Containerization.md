@@ -84,7 +84,8 @@ mosquitto
 
 ### Step 2: Build the container image
 
-Use the following command to build your container image:
+Use the following command to build your container image:<br />
+If your system's username uses capital letters, then choose another image name. The `User` variable can't be used in that case.
 
 **Using Podman:**
 
@@ -92,15 +93,16 @@ Use the following command to build your container image:
 podman build --platform linux/amd64 -t mosquitto-${USER}:1.0 /path/to/Containerfile
 ```
 
-**Using Docker (with buildx support):**
+**Using Docker (with buildx support):**<br />
+Note with `docker` the Containerfile must be called `Dockerfile`. Podman can handle both. <br />
+Also, to build cross-platform images, you need to use the [buildx](https://docs.docker.com/reference/cli/docker/buildx/build/) docker plugin.
 
 ```
-docker buildx build --platform linux/amd64 -t mosquitto-${USER}:1.0 /path/to/Containerfile --load
+docker buildx build --platform linux/amd64 -t mosquitto-${USER}:1.0 /path/to/Dockerfile
 ```
 
 - `--platform linux/amd64` emulates the container image's target platform and architecture as linux / x86-64. If you're building on a device with a different architecture (e.g., Apple Silicon with ARM processors), this flag ensures the build process emulates the correct target architecture for deployment on IBM Code Engine.
 - `-t` tags the image with a name and version
-- `--load` (Docker buildx only) loads the built image into the local Docker daemon
 
 Replace `/path/to/Containerfile` with the actual path to your `mosquitto` folder.
 
@@ -125,7 +127,8 @@ podman run -d --platform linux/amd64 \
 Use backticks (\`) for line continuation and double quotes for paths:
 
 ```powershell
-podman run -d ` --platform linux/amd64
+podman run -d `
+  --platform linux/amd64 `
   -v "${PWD}:/home/mosquitto/passwords:ro" `
   -v "${PWD}:/home/mosquitto/acl:ro" `
   -v "${PWD}:/home/mosquitto/config:ro" `
